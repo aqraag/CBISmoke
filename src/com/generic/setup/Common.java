@@ -46,74 +46,20 @@ public class Common extends SelTestCase {
 	public static class DataSheetConstants {
 	}
 
-	@SuppressWarnings("deprecation")
 	public static WebDriver initializeBrowser(String browser) throws Exception {
 		getCurrentFunctionName(true);
+		WebDriver driverInstance = null;
 		try {
-			logs.debug(MessageFormat.format(LoggingMsg.BROWSER_NAME,browser));
-			DesiredCapabilities capabilities = new DesiredCapabilities();
-			WebDriver driver;
-			if (browser.equalsIgnoreCase("edge")) {
-				System.setProperty("webdriver.edge.driver", PagesURLs.getDriversPath(browser));
-				return new EdgeDriver(new EdgeOptions());
-				
-			}else if (browser.equalsIgnoreCase("Firefox")) {
-				System.setProperty("webdriver.gecko.driver",PagesURLs.getDriversPath(browser));
-				
-				FirefoxOptions fo = new FirefoxOptions();
-				driver = new FirefoxDriver(fo);
-				driver.manage().timeouts().pageLoadTimeout(60,TimeUnit.SECONDS);
-				driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-				return driver;
-								
-			}else if (browser.equalsIgnoreCase("IE")) {
-				System.setProperty("webdriver.ie.driver", PagesURLs.getDriversPath(browser));
-				capabilities = DesiredCapabilities.internetExplorer();
-				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-				capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,
-						true);
-				capabilities.setJavascriptEnabled(true);
-				capabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
-
-				return new InternetExplorerDriver(capabilities);
-
-			} else if (browser.equalsIgnoreCase("chrome")) {
+			logs.debug(MessageFormat.format(LoggingMsg.BROWSER_NAME, browser));
+			if (browser.equalsIgnoreCase("chrome")) {
 
 				System.setProperty("webdriver.chrome.driver", PagesURLs.getDriversPath(browser));
 				ChromeOptions co = new ChromeOptions();
-				driver = new ChromeDriver(co);
-				driver.manage().timeouts().pageLoadTimeout(60,TimeUnit.SECONDS);
-				driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-				return driver;
+				driverInstance = new ChromeDriver(co);
+				driverInstance.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+				driverInstance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-			} else if (browser.equalsIgnoreCase("safari_grid")) {
-				SafariOptions options = new SafariOptions();
-				// options.setUseCleanSession(true);
-				capabilities = DesiredCapabilities.safari();
-				capabilities.setCapability(SafariOptions.CAPABILITY, options);
-				// capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-				// capabilities.setPlatform(Platform.MAC);
-				// capabilities.setCapability("ensureCleanSession", true);
-				// TODO: change it and setup grid server
-				SelTestCase.setDriver(new RemoteWebDriver(new URL("http://10.20.20.54:4444/wd/hub"), capabilities));
-				
-			} 
-			 else if (browser.equalsIgnoreCase("ChromeG")) {
-				DesiredCapabilities des=DesiredCapabilities.chrome();
-//				des.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//				des.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
-//				des.setPlatform(Platform.WIN10);
-				System.setProperty("webdriver.chrome.driver", PagesURLs.getDriversPath(browser));
-				//des.setPlatform(org.openqa.selenium.Platform.WINDOWS);
-				RemoteWebDriver rdriver ;
-				
-				//rdriver = new RemoteWebDriver(new URL("http://cv-autogrid04.crossview.inc:4444/wd/hub"),des);
-				rdriver = new RemoteWebDriver(new URL("http://10.200.254.33:4444/wd/hub"),des);
-				rdriver.manage().timeouts().pageLoadTimeout(60,TimeUnit.SECONDS);
-				rdriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-				return rdriver;
-					
-				}else if (browser.contains("mobile")) {
+			} else if (browser.contains("mobile")) {
 				  /*
 				   * https://cs.chromium.org/chromium/src/chrome/test/chromedriver/chrome/mobile_device_list.cc
 				   	  iPad
@@ -136,9 +82,6 @@ public class Common extends SelTestCase {
 				   */
 				  
 				String mobile = browser.split("_")[1];
-				capabilities = DesiredCapabilities.chrome();
-				capabilities.setCapability("platform", "WINDOWS");
-				capabilities.setBrowserName("chrome");
 
 				Map<String, String> mobileEmulation = new HashMap<String, String>();
 				mobileEmulation.put("deviceName", mobile);
@@ -154,28 +97,11 @@ public class Common extends SelTestCase {
 				}
 
 				options.setExperimentalOption("mobileEmulation", mobileEmulation);
-				capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 				System.setProperty("webdriver.chrome.driver", PagesURLs.getDriversPath("chrome"));
-				return new ChromeDriver(capabilities);
+				driverInstance = new ChromeDriver(options);
 
-			} else if (browser.equalsIgnoreCase("IOS_grid")) {
-				capabilities = DesiredCapabilities.iphone();
-				capabilities.setCapability("browserName", "Safari");
-				capabilities.setCapability("deviceName", "iPhone");
-				capabilities.setCapability("udid", "021319a68bdf5c78436027f183c4ec14b54df13e");// from xcode
-				capabilities.setCapability("useNewWDA", true);
-				capabilities.setCapability("automationName", "XCUITest");
-				capabilities.setCapability("startIWDP", true);
-				capabilities.setCapability("webkitResponseTimeout", 15000);
-				capabilities.setCapability("nativeWebTap", true);
-				capabilities.setCapability("autoWebview", true);
-				capabilities.setCapability("platformVersion", "11.4"); // from xcode
-				capabilities.setCapability("platformName", "iOS");
-
-				return new IOSDriver(new URL("http://172.28.8.69:4723/wd/hub"), capabilities);
-
-			}else {
+			} else {
 				logs.debug(LoggingMsg.INVALID_BROWSER_ERROR_MSG);
 				throw new Exception(LoggingMsg.INVALID_BROWSER_ERROR_MSG);
 			}
@@ -188,7 +114,7 @@ public class Common extends SelTestCase {
 			throw new Exception(t);
 		}
 		getCurrentFunctionName(false);
-		return null;
+		return driverInstance;
 	}
 
 	/**

@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Seach regression" parallel="tests" thread-count="1" data-provider-thread-count="1">
-
+<suite name="Seach regression" parallel="tests" thread-count="3" data-provider-thread-count="1">
+	<parameter name="Env" value="prod"></parameter>
+	<parameter name="Brand" value="GR"></parameter>
 
 	<test name="Seach validation chrome">
 		<parameter name="browserName" value="Chrome"></parameter>
-		<parameter name="Env" value="prod"></parameter>
-		<parameter name="Brand" value="FG"></parameter>
 		<classes>
               <class name="com.generic.tests.FG.Search_PLP.SearchBase" />
 		</classes>
 	</test><!-- Test -->
 	<test name="Seach validation mobile_iPad">
 		<parameter name="browserName" value="mobile_iPad"></parameter>
-		<parameter name="Env" value="prod"></parameter>
-		<parameter name="Brand" value="FG"></parameter>
 		<classes>
               <class name="com.generic.tests.FG.Search_PLP.SearchBase" />
 		</classes>
 	</test><!-- Test -->
 	<test name="Seach validation mobile_iPhone x">
 		<parameter name="browserName" value="mobile_iPhone X"></parameter>
-		<parameter name="Env" value="prod"></parameter>
-		<parameter name="Brand" value="FG"></parameter>
 		<classes>
               <class name="com.generic.tests.FG.Search_PLP.SearchBase" />
 		</classes>

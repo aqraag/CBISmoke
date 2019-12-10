@@ -86,7 +86,67 @@ public class SelTestCase {
     public static LinkedHashMap<String, Object> paymentCards = null;
 	private static String URL;
 
-    public static String getBrowserName() {
+    
+	public static  boolean isGR() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrand().equals(brands.GR); 
+		getCurrentFunctionName(false);
+		return result;
+		}
+	public static  boolean isFG() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrand().equals(brands.FG);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	public static  boolean isGH() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrand().equals(brands.GH);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	public static  boolean isBD() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrand().equals(brands.BD);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	public static  boolean isRY() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrand().equals(brands.RY);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	
+	public static  boolean isMobile() {
+	getCurrentFunctionName(true);
+	boolean result  = getBrowserName().equalsIgnoreCase(GlobalVariables.browsers.iPhone);
+	getCurrentFunctionName(false);
+	return result;
+	}
+	
+	public static  boolean isDesktop() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrowserName().equalsIgnoreCase(GlobalVariables.browsers.chrome);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	
+	public static  boolean isiPad() {
+		getCurrentFunctionName(true);
+		boolean result  = getBrowserName().equalsIgnoreCase(GlobalVariables.browsers.iPad);
+		getCurrentFunctionName(false);
+		return result;
+		}
+	
+	public static String getBrand() {
+        //return brandName;
+    	String brandName = testObj.get().getParameter("Brand");
+    	logs.debug("Brand: "+brandName);
+        return brandName;
+    }
+	
+	public static String getBrowserName() {
         //return browserName;
     	String browserName = testObj.get().getParameter("browserName");
     	logs.debug("browserName "+browserName);
@@ -234,6 +294,21 @@ public class SelTestCase {
     	
     }
     
+    
+    public static void enableMonetate()
+    {
+    	getCurrentFunctionName(true);
+		getDriver().get(getURL() + "/?monetate=on");
+		getCurrentFunctionName(false);
+    }
+    
+    public static void disableMonetate()
+    {
+    	getCurrentFunctionName(true);
+		getDriver().get(getURL() + "/?monetate=off");
+		getCurrentFunctionName(false);
+    }
+    
     public static void failureHandeler(Throwable t, String info)
     {
     	setTestCaseDescription(getTestCaseDescription());
@@ -362,7 +437,6 @@ public class SelTestCase {
     	logs.debug("loading data store");
     	users = Common.readUsers();
 		addresses = Common.readAddresses();
-		invintory = Common.readLocalInventory();
 		paymentCards = Common.readPaymentcards();
 		
     }

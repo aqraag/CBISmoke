@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="HomePageRegression" parallel="tests" thread-count="3" data-provider-thread-count="1">
-	<test name="HP Chrome">
+<suite name="PDPRegression" parallel="tests" thread-count="3" data-provider-thread-count="1">
+	<test name="PDP Chrome">
 		<parameter name="browserName" value="Chrome"></parameter>
 		<parameter name="Env" value="prod"></parameter>
 		<parameter name="Brand" value="GR"></parameter>
@@ -9,7 +9,7 @@
 			<class name="com.generic.tests.GR.PDP.PDPBase" />
 		</classes>
 	</test><!-- Test -->
-	<test name="HP iPad">
+	<test name="PDP iPad">
 		<parameter name="browserName" value="mobile_iPad"></parameter>
 		<parameter name="Env" value="prod"></parameter>
 		<parameter name="Brand" value="GR"></parameter>
@@ -17,7 +17,7 @@
 			<class name="com.generic.tests.GR.PDP.PDPBase" />
 		</classes>
 	</test><!-- Test -->
-	<test name="HP iPhone">
+	<test name="PDP iPhone">
 		<parameter name="browserName" value="mobile_iPhone X"></parameter>
 		<parameter name="Env" value="prod"></parameter>
 		<parameter name="Brand" value="GR"></parameter>
